@@ -22,7 +22,7 @@ XNbr::XNbr(std::string nbr, unsigned nbrSystem, unsigned capacity): _nbrSystem(n
         else if (nbr[i] >= 'A' && nbr[i] <= 'Z')
             _nbr[i] = 10 + nbr[i] - 'A';
         else
-            throw ;
+            throw WrongNumberFormatException();
     }
 };
 
@@ -71,7 +71,7 @@ XNbr XNbr::operator+(int x) {
     for (int i = _capacity - 1; i >= 0; i--) {
         if (_nbr[i] >= _nbrSystem) {
             if (i == 0)
-                throw ;
+                throw OutOfRangeException();
             _nbr[i - 1] += 1;
             _nbr[i] = 0;
         }
@@ -119,4 +119,14 @@ unsigned XNbr::digitSum() {
     for (size_t i = 0; i < _capacity; i++)
         sum += _nbr[i];
     return sum;
+};
+
+const char* XNbr::OutOfRangeException::what() const throw()
+{
+    return "Try to increment number with max value";
+};
+
+const char* XNbr::WrongNumberFormatException::what() const throw()
+{
+    return "Wrong format of number initialization";
 };
